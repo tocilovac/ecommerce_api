@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+sqlmodel
+python-jose
+passlib[bcrypt]
+redis
+python-dotenv
+httpx
+pytest
+pytest-asyncio
+alembic
+psycopg2-binary
+pydantic[email]
+email-validator
+
+# Optional dependencies for enhanced functionality
