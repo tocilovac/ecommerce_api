@@ -1,17 +1,13 @@
 from fastapi import FastAPI
 from app.database import init_db
-from app.routes import users
-from app.routes import products
-from app.routes import cart
-from app.routes import orders
+from app.routes import users, cart, orders
+from app.routes.products import router as products_router
 
-app = FastAPI(title="E-Commerce API")  # ✅ Define app first
+app = FastAPI(title="E-Commerce API")
 
-# Initialize database tables
 init_db()
 
-# Include routers
 app.include_router(users.router)
-app.include_router(products.router)
 app.include_router(cart.router)
 app.include_router(orders.router)
+app.include_router(products_router, prefix="/products", tags=["products"])

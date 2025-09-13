@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 from datetime import datetime
+from sqlmodel import SQLModel
 
 #User Schemas
 class UserCreate(BaseModel):
@@ -57,5 +58,13 @@ class OrderRead(BaseModel):
     total_price: float
     status: str
     created_at: datetime
+
+class ProductUpdate(SQLModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    price: Optional[float] = None
+    stock: Optional[int] = None
+    category: Optional[str] = None
+    image_url: Optional[str] = None
 
 
