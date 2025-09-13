@@ -11,20 +11,31 @@ router = APIRouter(prefix="/users", tags=["users"])
 
 @router.post("/register", response_model=UserRead)
 def register(user: UserCreate, session: Session = Depends(get_session)):
-    existing_user = session.exec(select(User).where(User.email == user.email)).first()
-    if existing_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
-    
-    hashed_pw = hash_password(user.password)
-    new_user = User(
-        username=user.username,
-        email=user.email,
-        password_hash=hashed_pw
-    )
-    session.add(new_user)
-    session.commit()
-    session.refresh(new_user)
-    return new_user
+    try:
+        existing_user = session.exec(select(User).where(User.email == user.email)).first()
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Email already registered")
+
+        hashed_pw = hash_password(user.password)
+        print("Hashed password:", hashed_pw)
+
+        new_user = User(
+            username=user.username,
+            email=user.email,
+            password_hash=hashed_pw
+        )
+        session.add(new_user)
+        session.commit()
+        session.refresh(new_user)
+
+        print("New user created:", new_user)
+
+        return UserRead(**new_user.dict(exclude={"password_hash"}))
+
+    except Exception as e:
+        print("Registration error:", e)
+        raise HTTPException(status_code=500, detail="Internal server error")
+
 
 @router.post("/login")
 def login(credentials: UserLogin, session: Session = Depends(get_session)):
