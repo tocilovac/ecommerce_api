@@ -37,3 +37,25 @@ class ProductRead(BaseModel):
     category: Optional[str]
     image_url: Optional[str]
     created_at: datetime
+
+class CartItemCreate(BaseModel):
+    product_id: int
+    quantity: int
+
+class CartItemRead(BaseModel):
+    id: int
+    product_id: int
+    quantity: int
+    added_at: datetime
+
+class OrderCreate(BaseModel):
+    user_id: int
+
+class OrderRead(BaseModel):
+    id: int
+    user_id: int
+    total_price: float
+    status: str
+    created_at: datetime
+
+

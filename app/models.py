@@ -19,3 +19,18 @@ class Product(SQLModel, table=True):
     category: Optional[str] = None
     image_url: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class CartItem(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    product_id: int
+    quantity: int
+    added_at: datetime = Field(default_factory=datetime.utcnow)
+
+class Order(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int
+    total_price: float
+    status: str = "pending"
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+
