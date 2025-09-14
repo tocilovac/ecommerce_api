@@ -33,4 +33,9 @@ class Order(SQLModel, table=True):
     status: str = "pending"
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
-
+class Notification(SQLModel, table=True):
+    id: Optional[int] = Field(default = None, primary_key=True)
+    message: str
+    type: str
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    read: bool = Field(default=False)
